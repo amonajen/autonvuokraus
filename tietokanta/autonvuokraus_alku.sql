@@ -84,3 +84,37 @@ INSERT INTO sopimus (asiakasid, autoid, aloituspvm, lopetuspvm, palautettu) VALU
 
 -- TEE ITSE: lisää 6 autoa, 5 asiakasta ja 3 vuokrausta lisää.
 -- Muista: avoimessa vuokrauksessa palautettu on NULL ja auton onkovapaa on 0.
+
+START TRANSACTION;
+
+INSERT INTO auto
+    (id, rekno, valmistaja, malli, onkoautomaatti, moottori, istumapaikat, hinta)
+VALUES
+    (2, 'BAC-212', 'BMW', '330e', 1, 'hybridi', 5, 121.00),
+    (3, 'DAC-812', 'BMW', '520d', 1, 'diesel', 5, 123.00),
+    (4, 'CAB-312', 'BMW', '120i', 1, 'bensa', 5, 112.00),
+    (5, 'ACB-412', 'Ford', 'Focus', 1, 'diesel', 5, 104.00),
+    (6, 'BCB-512', 'Ford', 'Fiesta', 0, 'bensa', 5, 98.00),
+    (7, 'DDD-321', 'Hyundai', 'Kona', 1, 'sähkö', 5, 123.00);
+
+INSERT INTO asiakas
+    (id, etunimi, sukunimi, katuosoite, postitoimipaikka, puhelin, saika, email)
+VALUES
+    (2, 'Kalevi', 'Kallio', 'Esimerkkikatu 2', '04200 Kerava', '0400000002', '1995-05-16', 'kalevi@example.com'),
+    (3, 'Matti', 'Mäki', 'Esimerkkikatu 3', '04400 Järvenpää', '0400000003', '1989-09-03', 'matti@example.com'),
+    (4, 'Aino', 'Laine', 'Esimerkkikatu 4', '04130 Sipoo', '0400000004', '1998-02-12', 'aino@example.com'),
+    (5, 'Emilia', 'Niemi', 'Esimerkkikatu 5', '01300 Vantaa', '0400000005', '2000-07-21', 'emilia@example.com'),
+    (6, 'Oskari', 'Salmi', 'Esimerkkikatu 6', '00100 Helsinki', '0400000006', '1992-11-25', 'oskari@example.com');
+
+INSERT INTO sopimus
+    (asiakasid, autoid, aloituspvm, lopetuspvm, palautettu)
+VALUES
+    (2, 2, '2026-11-22', '2026-11-26', NULL),
+    (3, 3, '2026-11-24', '2026-11-29', NULL),
+    (4, 4, '2026-11-10', '2026-11-12', '2026-11-12');
+
+UPDATE auto
+SET onkovapaa = 0
+WHERE id IN (2, 3);
+
+COMMIT;
