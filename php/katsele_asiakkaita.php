@@ -9,10 +9,11 @@ $tulos = mysqli_query($yhteys, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Asiakkaat</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=<?= filemtime(__DIR__ . '/../css/style.css') ?>">
 </head>
 <body>
     <h1>Asiakkaat</h1>
+    <a class="back-button" href="../index.php">Takaisin</a>
     <table>
         <tr>
             <th>Nimi</th>

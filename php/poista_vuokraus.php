@@ -70,10 +70,11 @@ $tulos = mysqli_query($yhteys, $sql);
 <head>
     <meta charset="UTF-8">
     <title>Poista vuokraus</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=<?= filemtime(__DIR__ . '/../css/style.css') ?>">
 </head>
 <body>
     <h1>Poista vuokraus</h1>
+    <a class="back-button" href="../index.php">Takaisin</a>
 
     <?php if ($virhe != '') { ?><p class="viesti virhe"><?= htmlspecialchars($virhe) ?></p><?php } ?>
     <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>

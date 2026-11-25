@@ -75,10 +75,11 @@ $autot = mysqli_query($yhteys, "SELECT id, valmistaja, malli FROM auto WHERE onk
 <head>
     <meta charset="UTF-8">
     <title>Lisää vuokraus</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css?v=<?= filemtime(__DIR__ . '/../css/style.css') ?>">
 </head>
 <body>
     <h1>Lisää vuokraus</h1>
+    <a class="back-button" href="../index.php">Takaisin</a>
 
     <?php if ($virhe != '') { ?><p class="viesti virhe"><?= htmlspecialchars($virhe) ?></p><?php } ?>
     <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
