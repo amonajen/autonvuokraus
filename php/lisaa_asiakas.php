@@ -23,6 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($etunimi == '' || $sukunimi == '' || $katuosoite == '' ||
         $postitoimipaikka == '' || $puhelin == '' || $saika == '' || $email == '') {
         $virhe = "Täytä kaikki kentät.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $virhe = "Sähköpostiosoite ei ole oikean muotoinen.";
+    } elseif ($saika > date('Y-m-d')) {
+        $virhe = "Syntymäaika ei voi olla tulevaisuudessa.";
     }
 
     if ($virhe == '') {

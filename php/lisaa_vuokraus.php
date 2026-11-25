@@ -16,6 +16,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($asiakasid <= 0 || $autoid <= 0 || $aloituspvm == '' || $lopetuspvm == '') {
         $virhe = "Valitse asiakas ja auto sekä anna molemmat päivämäärät.";
+    } elseif ($aloituspvm < date('Y-m-d')) {
+        $virhe = "Aloituspäivä ei voi olla menneisyydessä.";
+    } elseif ($lopetuspvm < $aloituspvm) {
+        $virhe = "Lopetuspäivä ei voi olla ennen aloituspäivää.";
+    } else {
+        $sql = "SELECT COUNT(*) AS lkm FROM auto WHERE id = ? AND onkovapaa = 1";
+        $stmt = mysqli_prepare($yhteys, $sql);
+
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "i", $autoid);
+        }
+        if ($stmt && mysqli_stmt_execute($stmt)) {
+            $rivi = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+            if ($rivi['lkm'] == 0) {
+                $virhe = "Auto ei ole vapaana.";
+            }
+        } else {
+            $virhe = "Tallennus epäonnistui.";
+        }
     }
 
     if ($virhe == '') {
@@ -29,16 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_stmt_bind_param($stmt, "iiss", $asiakasid, $autoid, $aloituspvm, $lopetuspvm);
             mysqli_stmt_bind_param($paivitys, "i", $autoid);
 
-            if (mysqli_stmt_execute($stmt) && mysqli_stmt_execute($paivitys)
-                && mysqli_stmt_affected_rows($paivitys) === 1 && mysqli_commit($yhteys)) {
+            $kyselytOnnistuivat = mysqli_stmt_execute($stmt) && mysqli_stmt_execute($paivitys);
+            if ($kyselytOnnistuivat && mysqli_stmt_affected_rows($paivitys) === 1 && mysqli_commit($yhteys)) {
                 $viesti = "Vuokraus lisättiin.";
                 $asiakasid = 0;
                 $autoid = 0;
                 $aloituspvm = '';
                 $lopetuspvm = '';
             } else {
+                $virhe = $kyselytOnnistuivat && mysqli_stmt_affected_rows($paivitys) === 0
+                    ? "Auto ei ole vapaana."
+                    : "Tallennus epäonnistui.";
                 mysqli_rollback($yhteys);
-                $virhe = "Tallennus epäonnistui.";
             }
         } else {
             $virhe = "Tallennus epäonnistui.";
@@ -68,7 +89,7 @@ $autot = mysqli_query($yhteys, "SELECT id, valmistaja, malli FROM auto WHERE onk
             <select id="asiakasid" name="asiakasid">
                 <option value="0">-- Valitse --</option>
                 <?php while ($rivi = mysqli_fetch_assoc($asiakkaat)) { ?>
-                    <option value="<?= (int)$rivi['id'] ?>">
+                    <option value="<?= (int)$rivi['id'] ?>"<?= (int)$rivi['id'] === $asiakasid ? ' selected' : '' ?>>
                         <?= htmlspecialchars($rivi['etunimi'] . " " . $rivi['sukunimi']) ?>
                     </option>
                 <?php } ?>
@@ -79,7 +100,7 @@ $autot = mysqli_query($yhteys, "SELECT id, valmistaja, malli FROM auto WHERE onk
             <select id="autoid" name="autoid">
                 <option value="0">-- Valitse --</option>
                 <?php while ($rivi = mysqli_fetch_assoc($autot)) { ?>
-                    <option value="<?= (int)$rivi['id'] ?>">
+                    <option value="<?= (int)$rivi['id'] ?>"<?= (int)$rivi['id'] === $autoid ? ' selected' : '' ?>>
                         <?= htmlspecialchars($rivi['valmistaja'] . " " . $rivi['malli']) ?>
                     </option>
                 <?php } ?>
