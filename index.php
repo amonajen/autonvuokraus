@@ -9,28 +9,34 @@
 <body>
     <main class="content-container">
         <h1>Autonvuokraus</h1>
-        <nav aria-label="Päävalikko">
-            <h2>Autot</h2>
-            <ul>
-                <li><a href="php/katsele_autoja.php">Katsele autoja</a></li>
-                <li><a href="php/lisaa_auto.php">Lisää auto</a></li>
-                <li><a href="php/poista_auto.php">Poista auto</a></li>
-            </ul>
+        <nav class="home-menu" aria-label="Päävalikko">
+            <section class="menu-group">
+                <h2>Autot</h2>
+                <ul>
+                    <li><a href="php/katsele_autoja.php">Katsele autoja</a></li>
+                    <li><a href="php/lisaa_auto.php">Lisää auto</a></li>
+                    <li><a href="php/poista_auto.php">Poista auto</a></li>
+                </ul>
+            </section>
 
-            <h2>Asiakkaat</h2>
-            <ul>
-                <li><a href="php/katsele_asiakkaita.php">Katsele asiakkaita</a></li>
-                <li><a href="php/lisaa_asiakas.php">Lisää asiakas</a></li>
-                <li><a href="php/poista_asiakas.php">Poista asiakas</a></li>
-            </ul>
+            <section class="menu-group">
+                <h2>Asiakkaat</h2>
+                <ul>
+                    <li><a href="php/katsele_asiakkaita.php">Katsele asiakkaita</a></li>
+                    <li><a href="php/lisaa_asiakas.php">Lisää asiakas</a></li>
+                    <li><a href="php/poista_asiakas.php">Poista asiakas</a></li>
+                </ul>
+            </section>
 
-            <h2>Vuokraukset</h2>
-            <ul>
-                <li><a href="php/katsele_vuokrauksia.php">Katsele vuokrauksia</a></li>
-                <li><a href="php/lisaa_vuokraus.php">Lisää vuokraus</a></li>
-                <li><a href="php/palauta_auto.php">Palauta auto</a></li>
-                <li><a href="php/poista_vuokraus.php">Poista vuokraus</a></li>
-            </ul>
+            <section class="menu-group">
+                <h2>Vuokraukset</h2>
+                <ul>
+                    <li><a href="php/katsele_vuokrauksia.php">Katsele vuokrauksia</a></li>
+                    <li><a href="php/lisaa_vuokraus.php">Lisää vuokraus</a></li>
+                    <li><a href="php/palauta_auto.php">Palauta auto</a></li>
+                    <li><a href="php/poista_vuokraus.php">Poista vuokraus</a></li>
+                </ul>
+            </section>
         </nav>
     </main>
 </body>
