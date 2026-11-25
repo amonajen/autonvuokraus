@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($virhe == '') {
         $sql = "INSERT INTO sopimus (asiakasid, autoid, aloituspvm, lopetuspvm)
-                VALUES ((SELECT id FROM asiakas WHERE id = ?), ?, ?, ?)";
+                VALUES ((SELECT id FROM asiakas WHERE id = ? LOCK IN SHARE MODE), ?, ?, ?)";
         $stmt = mysqli_prepare($yhteys, $sql);
         $paivitys = mysqli_prepare($yhteys, "UPDATE auto SET onkovapaa = 0 WHERE id = ? AND onkovapaa = 1");
 
