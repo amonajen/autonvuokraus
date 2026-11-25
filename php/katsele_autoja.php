@@ -25,9 +25,15 @@ $tulos = mysqli_query($yhteys, $sql);
             <th>Hinta/päivä</th>
             <th>Vapaa</th>
         </tr>
-        <?php while ($rivi = mysqli_fetch_assoc($tulos)) { ?>
+        <?php while ($rivi = mysqli_fetch_assoc($tulos)) {
+            $kuva = basename($rivi['malli']) . '.png';
+        ?>
             <tr>
-                <td><img src="../images/<?= htmlspecialchars($rivi['malli']) ?>.png" alt="Auton kuva" width="100"></td>
+                <td>
+                    <?php if (file_exists(__DIR__ . '/../images/' . $kuva)) { ?>
+                        <img src="../images/<?= rawurlencode($kuva) ?>" alt="Auton kuva" width="100">
+                    <?php } ?>
+                </td>
                 <td><?= htmlspecialchars($rivi['rekno']) ?></td>
                 <td><?= htmlspecialchars($rivi['valmistaja']) ?></td>
                 <td><?= htmlspecialchars($rivi['malli']) ?></td>

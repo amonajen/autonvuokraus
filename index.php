@@ -13,6 +13,7 @@
             <h2>Autot</h2>
             <ul>
                 <li><a href="php/katsele_autoja.php">Katsele autoja</a></li>
+                <li><a href="php/lisaa_auto.php">Lisää auto</a></li>
             </ul>
 
             <h2>Asiakkaat</h2>
