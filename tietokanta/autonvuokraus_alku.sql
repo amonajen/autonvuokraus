@@ -15,8 +15,8 @@
 -- Huom: tiedosto poistaa ensin vanhat taulut auto, asiakas ja sopimus ja tekee ne uudestaan.
 -- Tuonti nollaa siis näiden taulujen sisällön.
 
--- Vierasavaimia (FOREIGN KEY) ei ole. Ne lisätään lisätehtävässä F.
--- Siihen asti taulujen yhteys (asiakasid ja autoid) tarkistetaan PHP-koodissa.
+-- Sopimuksen vierasavaimet yhdistävät vuokrauksen asiakkaaseen ja autoon.
+-- PHP:n poistotarkistukset näyttävät käyttäjälle selkeän virheilmoituksen.
 
 SET NAMES utf8mb4;
 
@@ -39,7 +39,7 @@ CREATE TABLE auto (
   onkovapaa TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (id),
   UNIQUE KEY rekno (rekno)
-) DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Taulu asiakas: yksi rivi per asiakas
 -- saika = syntymäaika (muoto VVVV-KK-PP)
@@ -53,7 +53,7 @@ CREATE TABLE asiakas (
   saika DATE NOT NULL,
   email VARCHAR(255) NOT NULL,
   PRIMARY KEY (id)
-) DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Taulu sopimus: yksi rivi per vuokraus
 -- asiakasid viittaa taulun asiakas sarakkeeseen id
@@ -69,7 +69,11 @@ CREATE TABLE sopimus (
   PRIMARY KEY (id),
   KEY asiakasid (asiakasid),
   KEY autoid (autoid)
-) DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE sopimus
+  ADD CONSTRAINT fk_sopimus_asiakas FOREIGN KEY (asiakasid) REFERENCES asiakas(id),
+  ADD CONSTRAINT fk_sopimus_auto FOREIGN KEY (autoid) REFERENCES auto(id);
 
 -- Esimerkkirivit (yksi kustakin taulusta). Lisää loput itse.
 INSERT INTO auto (rekno, valmistaja, malli, onkoautomaatti, moottori, istumapaikat, hinta, onkovapaa) VALUES
