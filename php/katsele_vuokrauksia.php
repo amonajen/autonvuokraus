@@ -1,5 +1,6 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $sql = "SELECT s.aloituspvm, s.lopetuspvm, s.palautettu,
                a.etunimi, a.sukunimi,
@@ -20,6 +21,7 @@ $tulos = mysqli_query($yhteys, $sql);
 <body>
     <h1>Vuokraukset</h1>
     <a class="back-button" href="../index.php">Takaisin</a>
+    <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
     <table>
         <tr>
             <th>Asiakas</th>

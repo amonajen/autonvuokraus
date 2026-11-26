@@ -1,8 +1,8 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $virhe = '';
-$viesti = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = filter_var($_POST['sopimusid'] ?? 0, FILTER_VALIDATE_INT);
@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if ($poisto && mysqli_stmt_execute($poisto) && mysqli_stmt_affected_rows($poisto) === 1
                     && mysqli_commit($yhteys)) {
-                    $virhe = '';
-                    $viesti = "Vuokraus poistettiin.";
+                    header("Location: poista_vuokraus.php?viesti=vuokraus_poistettu", true, 303);
+                    exit();
                 }
             }
         }

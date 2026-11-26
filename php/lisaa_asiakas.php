@@ -2,7 +2,6 @@
 require_once('db.php');
 
 $virhe = '';
-$viesti = '';
 $etunimi = '';
 $sukunimi = '';
 $katuosoite = '';
@@ -40,14 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         if ($stmt && mysqli_stmt_execute($stmt)) {
-            $viesti = "Asiakas lisättiin.";
-            $etunimi = '';
-            $sukunimi = '';
-            $katuosoite = '';
-            $postitoimipaikka = '';
-            $puhelin = '';
-            $saika = '';
-            $email = '';
+            header("Location: katsele_asiakkaita.php?viesti=asiakas_lisatty", true, 303);
+            exit();
         } else {
             $virhe = "Tallennus epäonnistui.";
         }
@@ -66,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a class="back-button" href="../index.php">Takaisin</a>
 
     <?php if ($virhe != '') { ?><p class="viesti virhe"><?= htmlspecialchars($virhe) ?></p><?php } ?>
-    <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
 
     <form method="post">
         <p><label for="etunimi">Etunimi:</label>

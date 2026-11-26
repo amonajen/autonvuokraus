@@ -1,8 +1,8 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $virhe = '';
-$viesti = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = filter_var($_POST['asiakasid'] ?? 0, FILTER_VALIDATE_INT);
@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $virhe = "Asiakasta ei voi poistaa, koska hänellä on vuokrauksia.";
                     } elseif (mysqli_stmt_execute($poisto) && mysqli_stmt_affected_rows($poisto) === 1
                         && mysqli_commit($yhteys)) {
-                        $virhe = '';
-                        $viesti = "Asiakas poistettiin.";
+                        header("Location: poista_asiakas.php?viesti=asiakas_poistettu", true, 303);
+                        exit();
                     }
                 }
             }

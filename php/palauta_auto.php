@@ -1,8 +1,8 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $virhe = '';
-$viesti = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sopimusid = (int)($_POST['sopimusid'] ?? 0);
@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 if (mysqli_stmt_execute($palautus) && mysqli_stmt_execute($paivitys)
                     && mysqli_stmt_affected_rows($paivitys) === 1 && mysqli_commit($yhteys)) {
-                    $virhe = '';
-                    $viesti = "Auto palautettiin.";
+                    header("Location: palauta_auto.php?viesti=auto_palautettu", true, 303);
+                    exit();
                 }
             }
         }

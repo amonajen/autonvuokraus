@@ -2,7 +2,6 @@
 require_once('db.php');
 
 $virhe = '';
-$viesti = '';
 $asiakasid = 0;
 $autoid = 0;
 $aloituspvm = '';
@@ -50,11 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $kyselytOnnistuivat = mysqli_stmt_execute($stmt) && mysqli_stmt_execute($paivitys);
             if ($kyselytOnnistuivat && mysqli_stmt_affected_rows($paivitys) === 1 && mysqli_commit($yhteys)) {
-                $viesti = "Vuokraus lisättiin.";
-                $asiakasid = 0;
-                $autoid = 0;
-                $aloituspvm = '';
-                $lopetuspvm = '';
+                header("Location: katsele_vuokrauksia.php?viesti=vuokraus_lisatty", true, 303);
+                exit();
             } else {
                 $virhe = $kyselytOnnistuivat && mysqli_stmt_affected_rows($paivitys) === 0
                     ? "Auto ei ole vapaana."
@@ -82,7 +78,6 @@ $autot = mysqli_query($yhteys, "SELECT id, valmistaja, malli FROM auto WHERE onk
     <a class="back-button" href="../index.php">Takaisin</a>
 
     <?php if ($virhe != '') { ?><p class="viesti virhe"><?= htmlspecialchars($virhe) ?></p><?php } ?>
-    <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
 
     <form method="post">
         <p>

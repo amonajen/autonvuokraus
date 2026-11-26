@@ -1,5 +1,6 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $sql = "SELECT * FROM asiakas ORDER BY sukunimi";
 $tulos = mysqli_query($yhteys, $sql);
@@ -14,6 +15,7 @@ $tulos = mysqli_query($yhteys, $sql);
 <body>
     <h1>Asiakkaat</h1>
     <a class="back-button" href="../index.php">Takaisin</a>
+    <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
     <table>
         <tr>
             <th>Nimi</th>
