@@ -18,14 +18,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $puhelin = trim($_POST['puhelin'] ?? '');
     $saika = trim($_POST['saika'] ?? '');
     $email = trim($_POST['email'] ?? '');
+    $syntymapaiva = date_create_immutable($saika);
+    $tanaan = new DateTimeImmutable('today');
 
     if ($etunimi == '' || $sukunimi == '' || $katuosoite == '' ||
         $postitoimipaikka == '' || $puhelin == '' || $saika == '' || $email == '') {
         $virhe = "Täytä kaikki kentät.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $virhe = "Sähköpostiosoite ei ole oikean muotoinen.";
-    } elseif ($saika > date('Y-m-d')) {
+    } elseif (!$syntymapaiva || $syntymapaiva->format('Y-m-d') !== $saika) {
+        $virhe = "Syntymäaika ei ole oikean muotoinen.";
+    } elseif ($syntymapaiva > $tanaan) {
         $virhe = "Syntymäaika ei voi olla tulevaisuudessa.";
+    } elseif (!preg_match('/^[0-9 +]{7,20}$/', $puhelin)) {
+        $virhe = "Puhelinnumero ei ole oikean muotoinen.";
+    } elseif ($syntymapaiva->diff($tanaan)->y < 18) {
+        $virhe = "Asiakkaan pitää olla vähintään 18-vuotias.";
     }
 
     if ($virhe == '') {
