@@ -75,6 +75,7 @@ h1 {
 
 .menu-group a,
 .back-button,
+.edit-button,
 input[type="submit"] {
     padding: 10px 14px;
     border: 1px solid var(--border);
@@ -95,14 +96,19 @@ input[type="submit"] {
     background-color: #dfeafb;
 }
 
-.back-button {
+.back-button,
+.edit-button {
     display: inline-block;
-    margin-bottom: 12px;
     background-color: var(--surface);
     color: var(--blue-dark);
 }
 
-.back-button:hover {
+.back-button {
+    margin-bottom: 12px;
+}
+
+.back-button:hover,
+.edit-button:hover {
     background-color: var(--blue-light);
 }
 

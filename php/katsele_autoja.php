@@ -1,5 +1,6 @@
 <?php
 require_once('db.php');
+require_once('viestit.php');
 
 $sql = "SELECT * FROM auto";
 $tulos = mysqli_query($yhteys, $sql);
@@ -14,6 +15,7 @@ $tulos = mysqli_query($yhteys, $sql);
 <body>
     <h1>Autot</h1>
     <a class="back-button" href="../index.php">Takaisin</a>
+    <?php if ($viesti != '') { ?><p class="viesti"><?= htmlspecialchars($viesti) ?></p><?php } ?>
     <table>
         <tr>
             <th>Kuva</th>
@@ -25,6 +27,7 @@ $tulos = mysqli_query($yhteys, $sql);
             <th>Istumapaikat</th>
             <th>Hinta/päivä</th>
             <th>Vapaa</th>
+            <th>Toiminnot</th>
         </tr>
         <?php while ($rivi = mysqli_fetch_assoc($tulos)) {
             $kuva = basename($rivi['malli']) . '.png';
@@ -43,6 +46,7 @@ $tulos = mysqli_query($yhteys, $sql);
                 <td><?= (int)$rivi['istumapaikat'] ?></td>
                 <td><?= htmlspecialchars($rivi['hinta']) ?> €</td>
                 <td><?= $rivi['onkovapaa'] ? 'Kyllä' : 'Ei' ?></td>
+                <td><a class="edit-button" href="muokkaa_auto.php?id=<?= (int)$rivi['id'] ?>">Muokkaa</a></td>
             </tr>
         <?php } ?>
     </table>
